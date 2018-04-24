@@ -5,14 +5,11 @@
   <title>Title</title>
   <script type="text/javascript">
     var showFileInformation=function(){
-      var imageEle=document.getElementById("images");
+      var imageEle=document.getElementById("input");
       var imageFileList=imageEle.files;
-      var file = document.getElementById("images").files[0];
+      var file = document.getElementById("input").files[0];
       var fileReader = new FileReader();
       fileReader.readAsText(file);
-
-
-
       fileReader.onload = function () {
         console.log(
             this.result
@@ -20,10 +17,13 @@
       }
 
     }
+
+
   </script>
 </head>
 <body>
-浏览图片:<input id="images" type="file" multiple accept="json/*"/>
+浏览图片:<input id="input" type="file" multiple accept="json/*"/>
 <input type="button" value="显示文件信息" onclick="showFileInformation();">
+<input id="lonText" type="text" value="经度" onclick="readLon();">
 </body>
 </html>
