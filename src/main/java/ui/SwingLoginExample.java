@@ -1,6 +1,8 @@
 package ui;
 
 import com.google.gson.Gson;
+import org.junit.Test;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -13,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import org.junit.Test;
+
 
 public class SwingLoginExample {
 
@@ -24,7 +26,7 @@ public class SwingLoginExample {
 
     private static String data = "";
     private static String name = "";
-    private final static String path = "D:\\Users\\10729\\data.txt";
+    private final static String path = "X:\\Users\\liushiyao\\IdeaProjects\\pi\\src\\main\\web\\data.txt";
 
 
 
@@ -122,9 +124,8 @@ public class SwingLoginExample {
         System.out.println(arrStr.toString());
         for (int i = 0; i < arrStr.length; i++) {
             String  temp [] = arrStr[i].split(",");
-            double [] arrDouble = new double[]{0.0,0.0};
-            arrDouble[0] = angleToRad(Double.valueOf(temp[0]));
-            arrDouble[1] = angleToRad(Double.valueOf(temp[1]));
+            double [] arrDouble =
+                    bdToGaoDe(angleToRad(Double.valueOf(temp[1])),angleToRad(Double.valueOf(temp[0])));
             list.add(arrDouble);
         }
         route.setName(name);
@@ -132,7 +133,7 @@ public class SwingLoginExample {
         String json = new Gson().toJson(route);
         return json;
     }
-    @Test
+
     public void Test(){
 
         String string = parse("116.405289,39.904987;116.406265,39.905014;116.406441,39.905018;116.406647,39.905018;116.407013,39.905045;116.406944,39.906036;116.406937,39.9063;116.406807,39.907856;116.406807,39.907856;116.407486,39.907875;");
@@ -148,11 +149,32 @@ public class SwingLoginExample {
         double  sec = 0.0;
         angle = (int) (num / 100);
         min = (int) (num % 100);
-        sec = num / 60;
+        sec = (num -(int)num)*60;
         double temp =  0.0;
         temp = angle + min/60.0 + sec/3600.0;
         temp = (double) Math.round(temp * 100000) / 100000;
         return temp;
+    }
+
+    @Test
+    public void Te(){
+
+       double a = angleToRad(11312.53931);
+        double b = angleToRad(2304.26794);
+       System.out.println(a);
+        System.out.println(b);
+
+    }
+
+    private static double[] bdToGaoDe(double bd_lat, double bd_lon) {
+        double[] gd_lat_lon = new double[2];
+        double PI = 3.14159265358979324 * 3000.0 / 180.0;
+        double x = bd_lon - 0.0065, y = bd_lat - 0.006;
+        double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * PI);
+        double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * PI);
+        gd_lat_lon[0] = z * Math.cos(theta);
+        gd_lat_lon[1] = z * Math.sin(theta);
+        return gd_lat_lon;
     }
 
 }
