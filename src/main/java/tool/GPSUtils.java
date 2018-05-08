@@ -1,7 +1,5 @@
 package tool;
 
-import java.util.Date;
-
 //GPS相关工具类，包括距离计算等
 public class GPSUtils {
 
@@ -9,7 +7,7 @@ public class GPSUtils {
 
   public static void main(String []a){
     logger.debug("logger");
-    System.out.println(new Date().toString());
+    logger.debug(PropertyUtil.getProperty("NAME"));
     System.out.println(algorithm(113.211,2304.18232,113.211,2304.28232));
 
   }
