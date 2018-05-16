@@ -44,7 +44,8 @@ import com.pi4j.io.serial.StopBits;
 import com.pi4j.util.CommandArgumentParser;
 import com.pi4j.util.Console;
 import java.io.IOException;
-import java.util.Date;
+import java.nio.charset.StandardCharsets;
+import tool.Logger;
 
 /**
  * This example code demonstrates how to perform serial communications using the Raspberry Pi.
@@ -52,6 +53,8 @@ import java.util.Date;
  * @author Robert Savage
  */
 public class SerialExample {
+
+    private static Logger logger = Logger.getLogger(SerialExample.class);
 
     /**
      * This example program supports the following optional command arguments/options:
@@ -102,8 +105,10 @@ public class SerialExample {
 
                 // print out the data received to the console
                 try {
-                    console.println("[HEX DATA]   " + event.getHexByteString());
+                    //console.println("[HEX DATA]   " + event.getHexByteString());
                     console.println("[ASCII DATA] " + event.getAsciiString());
+                    logger.info("even:"+event.getAsciiString());
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -147,9 +152,9 @@ public class SerialExample {
             while(console.isRunning()) {
                 try {
                     // write a formatted string to the serial transmit buffer
-                    serial.write("CURRENT TIME: " + new Date().toString());
+                   // serial.write(StandardCharsets.US_ASCII,"123asd");
 
-                    // write a individual bytes to the serial transmit buffer
+                    /*// write a individual bytes to the serial transmit buffer
                     serial.write((byte) 13);
                     serial.write((byte) 10);
 
@@ -158,10 +163,15 @@ public class SerialExample {
 
                     // write a individual characters to the serial transmit buffer
                     serial.write('\r');
-                    serial.write('\n');
+                    serial.write('\n');*/
 
                     // write a string terminating with CR+LF to the serial transmit buffer
-                    serial.writeln("Third Line");
+//                    serial.writeln("Third Line");
+                    serial.write(StandardCharsets.US_ASCII,"US_ASCII:");
+                    serial.write(StandardCharsets.UTF_8,"UTF_8:");
+                    serial.write(StandardCharsets.ISO_8859_1,"ISO_8859_1:");
+                    serial.write(StandardCharsets.UTF_16,"UTF_16:");
+
                 }
                 catch(IllegalStateException ex){
                     ex.printStackTrace();
